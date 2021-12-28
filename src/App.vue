@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavigationBar />
+    <NavigationBar id="navbar"/>
     <div id="map">
       <Map />
     </div>
@@ -28,9 +28,17 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-html, body, #app, #map {
+html, body, #app {
   height: 100%;
-  overflow: visible;
-  width: 100%;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+#map {
+  flex-grow: 1;
 }
 </style>

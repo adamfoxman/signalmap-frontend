@@ -22,7 +22,7 @@
 
 <script>
 import SearchButton from "@/components/SearchButton";
-import TransmitterSidebar from "@/components/TransmitterSidebar";
+import TransmitterSidebar from "@/components/sidebar/TransmitterSidebar";
 
 export default {
   name: "NavigationBar",
