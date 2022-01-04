@@ -4,18 +4,23 @@
     <div id="map">
       <Map />
     </div>
+    <div id="footer">
+      <Footer/>
+    </div>
   </div>
 </template>
 
 <script>
 import NavigationBar  from "@/components/NavigationBar";
 import Map from "@/components/Map";
+import Footer from "@/components/Footer";
 
 export default {
   name: 'App',
   components: {
     NavigationBar,
     Map,
+    Footer
   }
 }
 </script>
@@ -40,5 +45,9 @@ html, body, #app {
 
 #map {
   flex-grow: 1;
+}
+
+#footer {
+  height: 10px;
 }
 </style>

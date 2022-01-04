@@ -2,7 +2,7 @@
   <div>
     <b-button v-b-toggle.transmitter-sidebar id="transmitters_button">Show transmitters</b-button>
 
-    <b-sidebar id="transmitter-sidebar" title="Transmitters" shadow right>
+    <b-sidebar id="transmitter-sidebar" title="Transmitters" shadow right backdrop>
       <div class="p-3">
         amogus
       </div>

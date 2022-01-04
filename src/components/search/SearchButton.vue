@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button v-b-modal.search_modal variant="outline-primary" id="search_button">
+    <b-button v-b-modal.search_modal variant="primary" id="search_button">
       <i class="fa fa-search"></i>
       <span>Search</span>
     </b-button>
@@ -27,7 +27,7 @@
           </b-col>
           <b-col cols="3">
             <b-form-group label="Frequency" label-for="frequency">
-              <b-form-select v-model="selected_freq" :options="countries"></b-form-select>
+              <b-form-input v-model="selected_freq" type="number"></b-form-input>
             </b-form-group>
             <div class="mt-3">Selected frequency: <strong>{{selected_freq}}</strong></div>
           </b-col>
@@ -58,22 +58,28 @@
             <div class="mt-3">Station: <strong>{{selected_station}}</strong></div>
           </b-col>
         </b-row>
+        <SearchResults
+            :band="selected_band"
+            :country="selected_country"
+            :frequency="selected_freq"
+            :erp="selected_erp"
+            :polarisation="selected_polarisation"
+            :location="selected_location"
+            :station="selected_station"
+        />
       </b-container>
-<!--      <div class="row">-->
-<!--        <div class="col-md-12">-->
-<!--          <div class="form-group">-->
-<!--            <label for="search_text">Search Text</label>-->
-<!--            <input type="text" class="form-control" id="search_text" v-model="search_text" placeholder="Enter search text">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
     </b-modal>
   </div>
 </template>
 
 <script>
+import SearchResults from '@/components/search/SearchResults.vue';
+
 export default {
   name: "SearchButton",
+  components: {
+    SearchResults,
+  },
   data() {
     return {
       selected_band: null,
@@ -84,7 +90,7 @@ export default {
       selected_station: null,
       selected_location: null,
       bands: [{text: 'FM Radio', value: 'f'}, {text: 'DAB/DAB+ Radio', value: 'd'}, {text: 'TV', value: 't'}],
-      countries: [{text: 'Germany', value: 'de'}, {text: 'Austria', value: 'at'}, {text: 'Switzerland', value: 'ch'}],
+      countries: [],
       dab_frequencies: [
         {text: 'Not specified', value: null},
         {text: '5A', value: 174.928},
@@ -131,6 +137,17 @@ export default {
       search_text: ""
     }
   },
+  created() {
+    const fetchCountries = async () => {
+      const response = await fetch('http://localhost/api/v1/countries/');
+      const json = await response.json();
+      return json.map(country => ({text: country.country_name, value: country.country_code}));
+    };
+
+    fetchCountries().then(countries => {
+      this.countries = countries;
+    });
+  }
 }
 </script>
 

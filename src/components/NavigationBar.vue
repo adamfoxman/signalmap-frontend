@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import SearchButton from "@/components/SearchButton";
+import SearchButton from "@/components/search/SearchButton";
 import TransmitterSidebar from "@/components/sidebar/TransmitterSidebar";
 
 export default {
@@ -31,13 +31,5 @@ export default {
 </script>
 
 <style scoped>
-.b-navbar-brand {
-  margin-left: 10px;
-  margin-right: 10px;
-}
 
-.b-navbar-nav {
-  margin-left: 10px;
-  margin-right: 10px;
-}
 </style>
