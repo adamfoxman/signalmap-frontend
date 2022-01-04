@@ -53,6 +53,9 @@
           aria-controls="search_results_table"
           centered>
       </b-pagination>
+      <b-button>
+        <span>Add to list</span>
+      </b-button>
     </b-modal>
   </div>
 </template>
@@ -159,5 +162,7 @@ export default {
 </script>
 
 <style scoped>
-
+b-button {
+  margin-bottom: 1rem;
+}
 </style>

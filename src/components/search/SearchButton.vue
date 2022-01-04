@@ -10,7 +10,8 @@
         centered
         title="Search transmitters"
         :scrollable="true"
-        size="lg">
+        size="lg"
+    >
       <b-container fluid>
         <b-row class="mb-1 text-center">
           <b-col cols="3">
@@ -58,6 +59,8 @@
             <div class="mt-3">Station: <strong>{{selected_station}}</strong></div>
           </b-col>
         </b-row>
+      </b-container>
+      <template #modal-footer>
         <SearchResults
             :band="selected_band"
             :country="selected_country"
@@ -66,8 +69,10 @@
             :polarisation="selected_polarisation"
             :location="selected_location"
             :station="selected_station"
+            center
+            align-v="center"
         />
-      </b-container>
+      </template>
     </b-modal>
   </div>
 </template>
