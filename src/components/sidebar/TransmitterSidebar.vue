@@ -2,17 +2,19 @@
   <div>
     <b-button v-b-toggle.transmitter-sidebar id="transmitters_button">Show transmitters</b-button>
 
-    <b-sidebar id="transmitter-sidebar" title="Transmitters" shadow right backdrop>
+    <b-sidebar id="transmitter-sidebar" title="Transmitters" width="440px" shadow right backdrop>
       <div class="p-3">
-        amogus
+        <TransmitterCard/>
       </div>
     </b-sidebar>
   </div>
 </template>
 
 <script>
+import TransmitterCard from "@/components/sidebar/TransmitterCard";
 export default {
-  name: "TransmitterSidebar"
+  name: "TransmitterSidebar",
+  components: {TransmitterCard}
 }
 
 </script>
