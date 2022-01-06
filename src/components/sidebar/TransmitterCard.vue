@@ -16,7 +16,7 @@
         <b-button-group>
           <b-button
               variant="outline-primary"
-              @click="$emit('delete')"
+              @click="addCoverageLayer"
           >
             <i class="fas fa-edit">Show</i>
           </b-button>
@@ -33,8 +33,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "TransmitterCard",
   props: {
@@ -64,6 +62,11 @@ export default {
       const response = await fetch('http://localhost/api/v1/transmitters/get/external/?band=f&external_id=2400001');
       this.transmitter = await response.json();
       console.log(this.transmitter);
+    },
+    // add coverage layer using kml data from the object on the map and omnivore
+    addCoverageLayer() {
+      console.log(this.transmitter.kml_file);
+      this.$root.$emit('addCoverageLayer', this.transmitter.kml_file);
     }
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
     <div class="map-container">
-      <l-map :zoom="zoom" :center="center">
+      <l-map ref="map" :zoom="zoom" :center="center">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="markerLatLng"></l-marker>
       </l-map>
@@ -10,6 +10,7 @@
 <script>
 import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
 import { Icon } from 'leaflet';
+import omnivore from '@mapbox/leaflet-omnivore';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -22,7 +23,7 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker
+    LMarker,
   },
   data () {
     return {
@@ -33,6 +34,26 @@ export default {
       center: [51.505, -0.159],
       markerLatLng: [51.504, -0.159]
     };
+  },
+  methods: {
+    addCoverageLayer(kml) {
+      let map = this.$refs.map.mapObject;
+
+      fetch(kml)
+          .then(response => response.text())
+          .then(text => {
+            const layer = omnivore.kml.parse(text);
+            map.addLayer(layer);
+            console.log(layer);
+          }).catch(error => {
+        console.log(error);
+      });
+    }
+  },
+  mounted() {
+    this.$root.$on('addCoverageLayer', (kml) => {
+      this.addCoverageLayer(kml);
+    });
   }
 }
 </script>
