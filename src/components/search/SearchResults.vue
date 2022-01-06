@@ -20,7 +20,19 @@
           :paginated="true"
           :busy="isBusy"
           small
+          selectable
+          :select-mode="selectMode"
+          @row-selected="onRowSelected"
       >
+        <template #cell(frequency)="data">
+          {{data.value}} MHz
+        </template>
+        <template #cell(erp)="data">
+          {{data.value}} kW
+        </template>
+        <template #cell(polarisation)="data">
+          {{data.value.toUpperCase()}}
+        </template>
         <template slot="table-busy">
           <b-spinner
               type="grow"
@@ -53,9 +65,10 @@
           aria-controls="search_results_table"
           centered>
       </b-pagination>
-      <b-button>
-        <span>Add to list</span>
-      </b-button>
+      <b-button-group>
+        <b-button @click="addSelected"><span>Add selected</span></b-button>
+        <b-button @click="addAll"><span>Add all</span></b-button>
+      </b-button-group>
     </b-modal>
   </div>
 </template>
@@ -123,9 +136,11 @@ export default {
         }
       ],
       searchResults: [],
+      selected: [],
       perPage: 10,
       currentPage: 1,
       isBusy: false,
+      selectMode: 'multi',
     }
   },
   methods: {
@@ -151,6 +166,17 @@ export default {
       this.searchResults = await response.json();
       this.isBusy = false;
       console.log(this.searchResults);
+    },
+    onRowSelected(items) {
+      this.selected = items;
+      console.log(this.selected);
+    },
+    addSelected() {
+      console.log(this.selected);
+      this.$store.commit('transmitters/addTransmitters', this.selected);
+    },
+    addAll() {
+      this.$store.commit('transmitters/addTransmitters', this.searchResults);
     }
   },
   computed: {

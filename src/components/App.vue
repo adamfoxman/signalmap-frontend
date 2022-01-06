@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import NavigationBar  from "@/components/NavigationBar";
-import Map from "@/components/Map";
-import Footer from "@/components/Footer";
+import NavigationBar  from "@/components/main/NavigationBar";
+import Map from "@/components/main/Map";
+import Footer from "@/components/main/Footer";
 
 export default {
   name: 'App',

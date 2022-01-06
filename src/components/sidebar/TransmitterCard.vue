@@ -3,11 +3,11 @@
     <b-col>
       <b-card-body :title="transmitter.station">
         <b-row>
-          <b-col><p>{{transmitter.frequency}} MHz</p></b-col>
-          <b-col><p>{{transmitter.erp}} kW</p></b-col>
-          <b-col><p>{{polarisations.find(t => t.value === transmitter.polarisation).text}}</p></b-col>
+          <b-col>{{transmitter.frequency}} MHz</b-col>
+          <b-col>{{transmitter.erp}} kW</b-col>
+          <b-col>{{polarisations.find(t => t.value === transmitter.polarisation).text}}</b-col>
         </b-row>
-          <p class="text-center"><strong>Location: </strong>{{transmitter.location}}</p>
+          <strong>Location: </strong>{{transmitter.location}}
       </b-card-body>
 
     </b-col>
@@ -52,7 +52,8 @@ export default {
         {text: 'Mixed', value: 'm'},
         {text: 'Slant', value: 's'},
         {text: 'Circular', value: 'c'}
-      ]
+      ],
+      selected: []
     }
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.fetchData();
+    // this.fetchData();
   }
 }
 </script>
@@ -74,8 +75,11 @@ export default {
 <style scoped>
 b-card {
   max-width: 300px;
+  margin: 5px;
 }
+
 #buttons {
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 </style>
