@@ -1,6 +1,11 @@
 <template>
     <div class="map-container">
-      <l-map ref="map" :zoom="zoom" :center="center">
+      <l-map
+          ref="map"
+          :zoom="zoom"
+          :center="center"
+          @update:center="centerUpdated"
+      >
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="markerLatLng"></l-marker>
       </l-map>
@@ -9,8 +14,7 @@
 
 <script>
 import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
-import { Icon } from 'leaflet';
-import omnivore from '@mapbox/leaflet-omnivore';
+import L, { Icon } from 'leaflet';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -36,23 +40,32 @@ export default {
     };
   },
   methods: {
-    addCoverageLayer(kml) {
+    async addCoverageLayer(transmitter) {
       let map = this.$refs.map.mapObject;
+      let coverageUrl = transmitter.coverage_file;
+      let coverageBounds = [[transmitter.north_bound*0.99945, transmitter.east_bound],
+        [transmitter.south_bound*0.99945, transmitter.west_bound]];
+      let coverageOverlay = L.imageOverlay(coverageUrl, coverageBounds);
 
-      fetch(kml)
-          .then(response => response.text())
-          .then(text => {
-            const layer = omnivore.kml.parse(text);
-            map.addLayer(layer);
-            console.log(layer);
-          }).catch(error => {
-        console.log(error);
-      });
-    }
+      let transmitterMarker = L.marker([transmitter.latitude, transmitter.longitude])
+
+      let popup = L.popup()
+        .setContent(`<b>${transmitter.station}</b>
+                    <br>${transmitter.frequency} MHz`);
+      transmitterMarker.bindPopup(popup).openPopup();
+
+      let group = L.layerGroup([transmitterMarker, coverageOverlay]);
+      group.addTo(map);
+
+      this.center = [transmitter.latitude, transmitter.longitude];
+    },
+    centerUpdated(center) {
+      this.center = center;
+    },
   },
   mounted() {
-    this.$root.$on('addCoverageLayer', (kml) => {
-      this.addCoverageLayer(kml);
+    this.$root.$on('addCoverageLayer', (transmitter) => {
+      this.addCoverageLayer(transmitter);
     });
   }
 }
