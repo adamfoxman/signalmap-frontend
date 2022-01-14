@@ -146,7 +146,9 @@ export default {
     const fetchCountries = async () => {
       const response = await fetch('http://localhost/api/v1/countries/');
       const json = await response.json();
-      return json.map(country => ({text: country.country_name, value: country.country_code}));
+      return json.filter(country => country.is_enabled === true).map(country => {
+        return {text: country.country_name, value: country.country_code}
+      }).sort((a, b) => a.text.localeCompare(b.text));
     };
 
     fetchCountries().then(countries => {
