@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import App from './components/App.vue'
 import transmitterStore from './store/index'
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
-import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, LImageOverlay, LLayerGroup } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -13,6 +13,8 @@ Vue.use(Vuex);
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
+Vue.component('l-image-overlay', LImageOverlay);
+Vue.component('l-layer-group', LLayerGroup);
 
 Vue.config.productionTip = false
 

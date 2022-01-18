@@ -15,14 +15,22 @@
       <b-col>
         <b-button-group>
           <b-button
+              ref="showButton"
               variant="outline-primary"
-              @click="addCoverageLayer"
+              @click="addCoverageLayer(); onShowButtonClick()"
           >
             <i class="fas fa-edit">Show</i>
           </b-button>
           <b-button
+              ref="hideButton"
+              variant="outline-primary"
+              @click="deleteCoverageLayer(); onHideButtonClick()"
+          >
+            <i class="fas fa-edit">Hide</i>
+          </b-button>
+          <b-button
               variant="outline-danger"
-              @click="$emit('delete')"
+              @click="deleteTransmitter"
           >
             <i class="fas fa-edit">Delete</i>
           </b-button>
@@ -55,20 +63,35 @@ export default {
     }
   },
   methods: {
+    onShowButtonClick() {
+      this.$refs.hideButton.disabled = false;
+      this.$refs.showButton.disabled = true;
+    },
+    onHideButtonClick() {
+      this.$refs.showButton.disabled = false;
+      this.$refs.hideButton.disabled = true;
+    },
     deleteTransmitter() {
-      this.$emit("delete");
+      this.$store.commit('transmitters/removeTransmitter', this.transmitter);
+      this.deleteCoverageLayer()
     },
     async fetchData() {
       const response = await fetch('http://localhost/api/v1/transmitters/get/external/?band=f&external_id=2400001');
       this.transmitter = await response.json();
     },
-    // add coverage layer using kml data from the object on the map and omnivore
+    // add coverage layer using kml data from the object on the map
     addCoverageLayer() {
-      this.$root.$emit('addCoverageLayer', this.transmitter);
+      this.$store.commit('coverages/addCoverage', this.transmitter)
+      this.$root.$emit('update-layers');
+      this.$root.$emit('center-updated', [this.transmitter.latitude, this.transmitter.longitude]);
+    },
+    deleteCoverageLayer() {
+      this.$store.commit('coverages/removeCoverage', this.transmitter)
+      this.$root.$emit('update-layers');
     }
   },
   created() {
-    // this.fetchData();
+    this.$refs.hideButton.disabled = true;
   }
 }
 </script>
