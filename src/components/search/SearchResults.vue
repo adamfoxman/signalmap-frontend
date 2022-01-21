@@ -10,6 +10,7 @@
         centered
         title="Search Results"
         size="lg"
+        v-if="this.country !== null && this.band !== null"
     >
       <b-table
           id="search_results_table"
@@ -23,6 +24,8 @@
           selectable
           :select-mode="selectMode"
           @row-selected="onRowSelected"
+          empty-text="No results found. Try broadening your search."
+          empty-filtered-text="No results found. Try broadening your search."
       >
         <template #cell(frequency)="data">
           {{data.value}} MHz
@@ -69,6 +72,16 @@
         <b-button @click="addSelected"><span>Add selected</span></b-button>
         <b-button @click="addAll"><span>Add all</span></b-button>
       </b-button-group>
+    </b-modal>
+    <b-modal
+      v-else
+      id="search_results_modal"
+      centered
+      title="Error"
+      size="lg">
+      <b-alert show variant="danger">
+        Please select a country and a band.
+      </b-alert>
     </b-modal>
   </div>
 </template>
@@ -165,18 +178,29 @@ export default {
       const response = await fetch(apiAddress)
       this.searchResults = await response.json();
       this.isBusy = false;
-      console.log(this.searchResults);
     },
     onRowSelected(items) {
       this.selected = items;
-      console.log(this.selected);
     },
     addSelected() {
-      console.log(this.selected);
       this.$store.commit('transmitters/addTransmitters', this.selected);
+      this.$bvToast.toast('Transmitters added.', {
+        title: 'Success',
+        variant: 'success',
+        solid: true,
+        appendToast: true,
+        autoHideDelay: 3000
+      });
     },
     addAll() {
       this.$store.commit('transmitters/addTransmitters', this.searchResults);
+      this.$bvToast.toast('All transmitters added.', {
+        title: 'Success!',
+        variant: 'success',
+        solid: true,
+        appendToast: true,
+        autoHideDelay: 3000
+      });
     }
   },
   computed: {

@@ -66,30 +66,6 @@ export default {
     };
   },
   methods: {
-    async addCoverageLayer(transmitter) {
-      let map = this.$refs.map.mapObject;
-      let coverageUrl = transmitter.coverage_file;
-      let offset = 0.00006;
-      let coverageBounds = [[Math.round(transmitter.north_bound)*(1.0-(Math.round(transmitter.north_bound)*0.00001)+offset), transmitter.east_bound],
-        [transmitter.south_bound*(1.0-(transmitter.south_bound*0.00001)+offset), transmitter.west_bound]];
-      let coverageOverlay = L.imageOverlay(coverageUrl, coverageBounds);
-
-      let transmitterMarker = L.marker([transmitter.latitude, transmitter.longitude])
-
-      let popup = L.popup()
-        .setContent(`<b>${transmitter.station}</b>
-                    <br>Frequency: ${transmitter.frequency} MHz
-                    <br>Polarisation: ${transmitter.polarisation}
-                    <br>Power: ${transmitter.erp} kW
-                    <br>Antenna height: ${transmitter.height}+${transmitter.antenna_height} m
-                    `);
-      transmitterMarker.bindPopup(popup).openPopup();
-
-      let group = L.layerGroup([transmitterMarker, coverageOverlay]);
-      group.addTo(map);
-
-      this.center = [transmitter.latitude, transmitter.longitude];
-    },
     centerUpdated(center) {
       this.center = center;
     },
@@ -101,8 +77,13 @@ export default {
         }
       });
       this.coverages.forEach(coverage => {
-        // if not exists, add it
-        createLayer(coverage).addTo(map);
+        if (coverage === undefined) {
+          return;
+        }
+        let layer = createLayer(coverage);
+        if (!map.hasLayer(layer)) {
+          layer.addTo(map);
+        }
       });
     }
   },

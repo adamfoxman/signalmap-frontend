@@ -16,47 +16,56 @@
         <b-row class="mb-1 text-center">
           <b-col cols="3">
             <b-form-group label="Band" label-for="band">
-              <b-form-select v-model="selected_band" :options="bands"></b-form-select>
+              <b-form-select
+                  v-model="selected_band"
+                  :options="bands"
+                  :state="bandState"
+                  aria-describedby="input-live-help input-live-feedback"
+              />
+              <b-form-invalid-feedback>
+                Please select a band.
+              </b-form-invalid-feedback>
             </b-form-group>
-            <div class="mt-3">Selected band: <strong>{{selected_band}}</strong></div>
           </b-col>
           <b-col cols="3">
             <b-form-group label="Polarisation" label-for="polarisation">
               <b-form-select v-model="selected_polarisation" :options="polarisations"></b-form-select>
             </b-form-group>
-            <div class="mt-3">Selected polarisation: <strong>{{selected_polarisation}}</strong></div>
           </b-col>
           <b-col cols="3">
             <b-form-group label="Frequency" label-for="frequency">
               <b-form-input v-model="selected_freq" type="number"></b-form-input>
             </b-form-group>
-            <div class="mt-3">Selected frequency: <strong>{{selected_freq}}</strong></div>
           </b-col>
           <b-col cols="3">
             <b-form-group label="ERP power" label-for="erp">
               <b-form-input v-model="selected_erp" type="number" min="0"></b-form-input>
             </b-form-group>
-            <div class="mt-3">ERP power: <strong>{{selected_erp}}</strong></div>
           </b-col>
         </b-row>
         <b-row class="mb-1 text-center">
           <b-col cols="3">
             <b-form-group label="Country" label-for="country">
-              <b-form-select v-model="selected_country" :options="countries"></b-form-select>
+              <b-form-select
+                  v-model="selected_country"
+                  :options="countries"
+                  :state="countryState"
+                  aria-describedby="input-live-help input-live-feedback"
+              />
+              <b-form-invalid-feedback>
+                Please select a country.
+              </b-form-invalid-feedback>
             </b-form-group>
-            <div class="mt-3">Selected country: <strong>{{selected_country}}</strong></div>
           </b-col>
           <b-col cols="5">
             <b-form-group label="Location" label-for="location">
               <b-form-input v-model="selected_location" type="search"></b-form-input>
             </b-form-group>
-            <div class="mt-3">Location: <strong>{{selected_location}}</strong></div>
           </b-col>
           <b-col cols="4">
             <b-form-group label="Station" label-for="station">
               <b-form-input v-model="selected_station" type="search"></b-form-input>
             </b-form-group>
-            <div class="mt-3">Station: <strong>{{selected_station}}</strong></div>
           </b-col>
         </b-row>
       </b-container>
@@ -87,6 +96,8 @@ export default {
   },
   data() {
     return {
+      countries: [],
+      // first country on a list
       selected_band: null,
       selected_country: null,
       selected_freq: null,
@@ -95,7 +106,6 @@ export default {
       selected_station: null,
       selected_location: null,
       bands: [{text: 'FM Radio', value: 'f'}, {text: 'DAB/DAB+ Radio', value: 'd'}, {text: 'TV', value: 't'}],
-      countries: [],
       dab_frequencies: [
         {text: 'Not specified', value: null},
         {text: '5A', value: 174.928},
@@ -154,6 +164,14 @@ export default {
     fetchCountries().then(countries => {
       this.countries = countries;
     });
+  },
+  computed: {
+    bandState() {
+      return this.selected_band !== null;
+    },
+    countryState() {
+      return this.selected_country !== null;
+    },
   }
 }
 </script>

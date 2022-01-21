@@ -11,6 +11,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
+          <HelpButton/>
           <SearchButton />
           <TransmitterSidebar />
         </b-navbar-nav>
@@ -23,10 +24,11 @@
 <script>
 import SearchButton from "@/components/search/SearchButton";
 import TransmitterSidebar from "@/components/sidebar/TransmitterSidebar";
+import HelpButton from "@/components/help/HelpButton";
 
 export default {
   name: "NavigationBar",
-  components: {SearchButton, TransmitterSidebar}
+  components: {SearchButton, TransmitterSidebar, HelpButton}
 }
 </script>
 
