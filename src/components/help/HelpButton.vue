@@ -32,7 +32,7 @@
           />
         </b-carousel>
       </div>
-      <template #modal-footer id="help_footer">
+      <template #modal-footer style="font-size: x-small">
         <b>Ta aplikacja została wykonana jako przedmiot pracy inżynierskiej.</b>
         Autor: Adam Krzysztof Lisowski, opiekun: dr Cezary Bołdak, Politechnika Białostocka 2022
       </template>
@@ -86,10 +86,5 @@ export default {
 <style scoped>
 #help_button {
   margin: 5px;
-}
-
-#help_footer {
-  text-align: center;
-  font-size: x-small;
 }
 </style>

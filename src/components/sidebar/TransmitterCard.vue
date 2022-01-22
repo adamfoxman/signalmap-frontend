@@ -14,6 +14,7 @@
     <b-row id="buttons" no no-gutters>
       <b-col>
         <b-button-group>
+          <TransmitterModal :transmitter="transmitter"/>
           <b-button
               ref="showButton"
               variant="outline-primary"
@@ -33,8 +34,13 @@
 </template>
 
 <script>
+import TransmitterModal from "@/components/sidebar/TransmitterModal";
+
 export default {
   name: "TransmitterCard",
+  components: {
+    TransmitterModal
+  },
   props: {
     transmitter: {
       type: Object,
@@ -78,7 +84,7 @@ export default {
     deleteCoverageLayer() {
       this.$store.commit('coverages/removeCoverage', this.transmitter)
       this.$root.$emit('update-layers');
-    }
+    },
   },
   created() {
     this.$refs.hideButton.disabled = true;
