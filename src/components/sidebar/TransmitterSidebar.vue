@@ -52,7 +52,7 @@ export default {
       }
       else {
         this.$store.commit("transmitters/removeAllTransmitters");
-        this.$store.commit('coverages/removeAllCoverages');
+        this.$store.commit('coverages/removeCoverages');
         this.$root.$emit('update-layers');
         this.$bvToast.toast("All transmitters deleted", {
           title: "Deleted",
