@@ -43,8 +43,11 @@
                             <td>{{polarisations.find(t => t.value === transmitter.polarisation).text}}</td>
                           </tr>
                           <tr>
-                            <th>Antenna Height</th>
-                            <td>{{ transmitter.height }}+{{ transmitter.antenna_height }} meters</td>
+                            <th rowspan="2">Antenna Height</th>
+                            <td>{{ transmitter.antenna_height }} m AGL</td>
+                          </tr>
+                          <tr>
+                            <td>{{ transmitter.height + transmitter.antenna_height }} ({{transmitter.height}}+{{transmitter.antenna_height}}) m ASL</td>
                           </tr>
                           </tbody>
                         </table>
@@ -63,6 +66,10 @@
                           <tr>
                             <th>Location</th>
                             <td>{{ transmitter.location }}</td>
+                          </tr>
+                          <tr>
+                            <th>Height</th>
+                            <td>{{ transmitter.height }} meters ASL</td>
                           </tr>
                           <tr>
                             <th>Latitude</th>
@@ -170,7 +177,7 @@ export default {
 
     if (this.transmitter.pattern_v !== '') {
       this.chartData.datasets.push({
-        label: 'Vertical',
+        label: 'Vertical [dbW]',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         data: parseAntennaPattern(this.transmitter.pattern_v)
@@ -178,7 +185,7 @@ export default {
     }
     if (this.transmitter.pattern_h !== '') {
       this.chartData.datasets.push({
-        label: 'Horizontal',
+        label: 'Horizontal [dbW]',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         data: parseAntennaPattern(this.transmitter.pattern_h)
